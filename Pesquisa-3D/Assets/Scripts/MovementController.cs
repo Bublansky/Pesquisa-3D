@@ -83,6 +83,8 @@ public class MovementController : MonoBehaviour {
         zMovement = Mathf.Cos(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
         xMovement = Mathf.Sin(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
 
+        Debug.Log("zStep:" + zMovement + "/xStep:" + xMovement);
+
         Vector3 newPosition = 
             new Vector3(ObjectToMove.transform.position.x + xMovement,
             ObjectToMove.transform.position.y,
