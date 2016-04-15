@@ -7,6 +7,8 @@ public class MovementController : MonoBehaviour {
     private GameObject ObjectToMove;
     [SerializeField]
     private float StepDistance = 0.1f;
+    float zMovement;
+    float xMovement;
 
 
     private bool isJumping = false;
@@ -22,7 +24,9 @@ public class MovementController : MonoBehaviour {
         {
             isJumping = false;
         }
-	}
+        zMovement = Mathf.Cos(ObjectToMove.transform.eulerAngles.y * Mathf.Deg2Rad) * StepDistance;
+        xMovement = Mathf.Sin(ObjectToMove.transform.eulerAngles.y * Mathf.Deg2Rad) * StepDistance;
+    }
 
     public void sendInput(string input)
     {
@@ -38,10 +42,10 @@ public class MovementController : MonoBehaviour {
                 moveObjectToBack();
                 break;
             case "LEFT":
-                jumpObject();
+                moveObjectToLeft();
                 break;
             case "RIGHT":
-                jumpObject();
+                moveObjectToRight();
                 break;
         }
     }
@@ -52,18 +56,38 @@ public class MovementController : MonoBehaviour {
         {
             isJumping = true;
             ObjectToMove.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1000));
+            //Debug.Log("jump");
         }
     }
 
+    private void moveObjectToLeft()
+    {
+        //Debug.Log("front");
+        //Debug.Log("x:" + xMovement + "z:" + zMovement);
+
+        Vector3 newPosition =
+            new Vector3(ObjectToMove.transform.position.x - zMovement,
+            ObjectToMove.transform.position.y,
+            ObjectToMove.transform.position.z);
+
+        ObjectToMove.transform.position = newPosition;
+    }
+    private void moveObjectToRight()
+    {
+        //Debug.Log("front");
+
+
+        Vector3 newPosition =
+            new Vector3(ObjectToMove.transform.position.x + zMovement,
+            ObjectToMove.transform.position.y,
+            ObjectToMove.transform.position.z);
+
+        ObjectToMove.transform.position = newPosition;
+    }
     private void moveObjectToBack()
     {
         //Debug.Log("front");
 
-        float zMovement;
-        float xMovement;
-
-        zMovement = Mathf.Cos(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
-        xMovement = Mathf.Sin(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
 
         Vector3 newPosition =
             new Vector3(ObjectToMove.transform.position.x - xMovement,
@@ -77,13 +101,8 @@ public class MovementController : MonoBehaviour {
     {
         //Debug.Log("front");
         
-        float zMovement;
-        float xMovement;
-
-        zMovement = Mathf.Cos(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
-        xMovement = Mathf.Sin(ObjectToMove.transform.rotation.y * Mathf.Deg2Rad) * StepDistance;
-
-        Debug.Log("zStep:" + zMovement + "/xStep:" + xMovement);
+        //Debug.Log("rotation:" + ObjectToMove.transform.eulerAngles.y);
+        //Debug.Log("zStep:" + zMovement + "/xStep:" + xMovement);
 
         Vector3 newPosition = 
             new Vector3(ObjectToMove.transform.position.x + xMovement,
