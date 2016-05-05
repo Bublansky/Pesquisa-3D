@@ -6,7 +6,7 @@ public class MovementController : MonoBehaviour {
     [SerializeField]
     private GameObject ObjectToMove;
     [SerializeField]
-    private float StepDistance = 0.1f;
+    private float StepDistance = 1f;
     float zMovement;
     float xMovement;
 

@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour {
+public class MouseRotation : MonoBehaviour {
 
     //private RotationController rotationController;
     private string input;
     private float horizontalSpeed = 2.0f;
     private float verticalSpeed = 2.0f;
-    Vector3 newRotation;
+    private float MaxVerticalRotationX = 20.0f;
+    private float MinVerticalRotationX = -12.0f;
+    Vector3 NewRotation;
+    public Transform ObjectToRotate;
 
     // Use this for initialization
     void Start () {
@@ -17,15 +20,26 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         float h = horizontalSpeed * Input.GetAxis("Mouse X");
         float v = verticalSpeed * Input.GetAxis("Mouse Y");
-        newRotation = new Vector3(
-            Camera.main.transform.eulerAngles.x - v,
-            Camera.main.transform.eulerAngles.y + h,
-            Camera.main.transform.eulerAngles.z
+        //ObjectToRotate.eulerAngles.x - v
+        NewRotation = new Vector3(
+            ObjectToRotate.eulerAngles.x,
+            ObjectToRotate.eulerAngles.y + h,
+            ObjectToRotate.eulerAngles.z
             );
-        Camera.main.transform.eulerAngles = newRotation;
+        ObjectToRotate.eulerAngles = NewRotation;
+        //Debug.Log(newRotation.x + v);
+
+        NewRotation = Camera.main.transform.eulerAngles;
+
+        if (NewRotation.x + v >= MinVerticalRotationX && NewRotation.x + v <= MaxVerticalRotationX)
+        {
+            NewRotation.x += v;
+            //Debug.Log("never");
+        }
+        Camera.main.transform.eulerAngles = NewRotation;
+
         //rotationController.sendInput(h);
         //transform.Rotate(v, h, 0);
         /*
