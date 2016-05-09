@@ -6,9 +6,12 @@ public class MouseRotation : MonoBehaviour {
     //private RotationController rotationController;
     private string input;
     private float horizontalSpeed = 2.0f;
-    private float verticalSpeed = 2.0f;
+    private float verticalSpeed = 1f;
     private float MaxVerticalRotationX = 20.0f;
     private float MinVerticalRotationX = -12.0f;
+    private float h;
+    private float v;
+    private float NewXCoord;
     Vector3 NewRotation;
     public Transform ObjectToRotate;
 
@@ -20,8 +23,8 @@ public class MouseRotation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float h = horizontalSpeed * Input.GetAxis("Mouse X");
-        float v = verticalSpeed * Input.GetAxis("Mouse Y");
+        h = horizontalSpeed * Input.GetAxis("Mouse X");
+        v = verticalSpeed * Input.GetAxis("Mouse Y");
         //ObjectToRotate.eulerAngles.x - v
         NewRotation = new Vector3(
             ObjectToRotate.eulerAngles.x,
@@ -31,14 +34,14 @@ public class MouseRotation : MonoBehaviour {
         ObjectToRotate.eulerAngles = NewRotation;
         //Debug.Log(newRotation.x + v);
 
-        NewRotation = Camera.main.transform.eulerAngles;
-
-        if (NewRotation.x + v >= MinVerticalRotationX && NewRotation.x + v <= MaxVerticalRotationX)
+        NewRotation = GameObject.Find("CameraParent").GetComponent<Transform>().eulerAngles;
+        NewXCoord = NewRotation.x - v;
+        if (NewXCoord >= MinVerticalRotationX - 10 && NewXCoord <= MaxVerticalRotationX + 10)
         {
-            NewRotation.x += v;
+            NewRotation.x = NewXCoord;
             //Debug.Log("never");
         }
-        Camera.main.transform.eulerAngles = NewRotation;
+        GameObject.Find("CameraParent").GetComponent<Transform>().eulerAngles = NewRotation;
 
         //rotationController.sendInput(h);
         //transform.Rotate(v, h, 0);
